@@ -1,42 +1,42 @@
 module "Rgs" {
-  source = "github.com/mdkadir360/Terraform-env-gitops.git//1 RG"
+  source = "github.com/mdkadir360/Terraform-env-gitops.git//1-RG"
   rgs    = var.rg
 }
 
 module "vnet" {
-  source     = "github.com/mdkadir360/Terraform-env-gitops.git//4 Virtual network"
+  source     = "github.com/mdkadir360/Terraform-env-gitops.git//4-Virtual network"
   vnet       = var.vnet
 depends_on = [ module.Rgs ]
 }
 module "subnet" {
-  source     = "github.com/mdkadir360/Terraform-env-gitops.git//5 Subnet"
+  source     = "github.com/mdkadir360/Terraform-env-gitops.git//5-Subnet"
   subnet     = var.subnet
   depends_on = [module.vnet]
 }
 module "pip" {
-  source     = "github.com/mdkadir360/Terraform-env-gitops.git//6 Publicip"
+  source     = "github.com/mdkadir360/Terraform-env-gitops.git//6-Publicip"
   pip        = var.pip
   depends_on = [module.Rgs]
 }
 module "nic" {
-  source     = "github.com/mdkadir360/Terraform-env-gitops.git//7 Nic"
+  source     = "github.com/mdkadir360/Terraform-env-gitops.git//7-Nic"
   nic        = var.nic
   depends_on = [module.Rgs, module.subnet, module.vnet, module.pip]
 }
 module "nsg" {
-  source     = "github.com/mdkadir360/Terraform-env-gitops.git//8 NSG"
+  source     = "github.com/mdkadir360/Terraform-env-gitops.git//8-NSG"
   nsg        = var.nsg
   security   = var.security
   depends_on = [module.Rgs]
 }
 
 module "nsgass" {
-  source      = "github.com/mdkadir360/Terraform-env-gitops.git//8 nsg association"
+  source      = "github.com/mdkadir360/Terraform-env-gitops.git//8-nsg-association"
   association = var.associationm
   depends_on  = [module.nsg, module.subnet]
 }
 module "vm" {
-  source     = "github.com/mdkadir360/Terraform-env-gitops.git//10 Linux vm"
+  source     = "github.com/mdkadir360/Terraform-env-gitops.git//10-Linuxvm"
   vm         = var.vm
   depends_on = [module.Rgs, module.nic, module.pip,module.subnet,module.nsgass]
 }
