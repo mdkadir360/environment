@@ -4,7 +4,7 @@ module "Rgs" {
 }
 
 module "vnet" {
-  source     = "github.com/mdkadir360/Terraform-env-gitops.git//4-Virtual network"
+  source     = "github.com/mdkadir360/Terraform-env-gitops.git//4-Virtual-network"
   vnet       = var.vnet
 depends_on = [ module.Rgs ]
 }
@@ -31,7 +31,7 @@ module "nsg" {
 }
 
 module "nsgass" {
-  source      = "github.com/mdkadir360/Terraform-env-gitops.git//8-nsg-association"
+  source      = "github.com/mdkadir360/Terraform-env-gitops.git//9-nsgassociation"
   association = var.associationm
   depends_on  = [module.nsg, module.subnet]
 }
